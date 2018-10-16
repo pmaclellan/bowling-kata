@@ -1,9 +1,10 @@
 #include "Game.h"
+#include "Frame.h"
 #include <iostream>
 #include <string>
 #include <cstring>
 
-void bowl_a_frame(Game G, const char* name, int rollOne, int rollB, int expected)
+void bowl_a_frame(Game &G, const char* name, int rollOne, int rollB, int expected)
 {
 	G.Roll(rollOne);
 	G.Roll(rollB);
@@ -99,14 +100,39 @@ void next_turn()
 
 int main()
 {
-	//gutter_ball();
-	bowl_a_frame(Game(), "Gutter Frame", 0, 0, 0);
-	bowl_a_frame(Game(), "Okay Frame", 3, 4, 7);
-	bowl_a_frame(Game(), "Impossible Frame", 11, 0, 0);
-	bowl_a_frame(Game(), "Impossible Frame", 7, 7, 7);
-	consecutive_rolls();
-	consecutive_rolls_over_10();
-	next_turn();
+	// Gutter ball... ha loser
+	Game gutterFrame = Game();
+	bowl_a_frame(gutterFrame, "Gutter Frame", 0, 0, 0);
+
+	// Just a regular frame
+	Game okayFrame = Game();
+	bowl_a_frame(okayFrame, "Okay Frame", 3, 4, 7);
+
+	// Bowling over 10
+	Game impossibleFrameOne = Game();
+	bowl_a_frame(impossibleFrameOne, "Impossible Frame 1", 11, 0, 0);
+	Game impossibleFrameTwo = Game();
+	bowl_a_frame(impossibleFrameTwo, "Impossible Frame 2", 7, 7, 7);
+
+	// Conecutive Rolls
+	Game consecutiveTurns = Game();
+	bowl_a_frame(consecutiveTurns, "Consecutive Turns - Turn 1", 7, 2, 9);
+	bowl_a_frame(consecutiveTurns, "Consecutive Turns - Turn 2", 1, 1, 11);
+
+	// Spare Rules
+	Game spare = Game();
+	bowl_a_frame(spare, "First frame of spare", 5, 5, 10);
+	bowl_a_frame(spare, "2nd frame of SPARE", 1, 3, 15);
+
+	Frame f = Frame();
+	f.Roll(1);
+	f.Roll(0);
+	f.Roll(1);
+	if (f.Score() == 2)
+	{
+		printf("FAIL | Cannot roll three times in one frame!\n");
+	}
+
 	printf("\nFinished Running!\n\n");
 	return 0;
 }

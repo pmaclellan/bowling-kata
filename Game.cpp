@@ -13,9 +13,19 @@ void Game::Roll(int pins)
 int Game::Score()
 {
 	int totalScore = 0;
-	for(int i = 0; i <= currentFrame; i++)
+	for(int i = 9; i >= 0; i--)
 	{
-		totalScore += frame[i].Score();
+		if (frame[i].Score() == 10)
+		{
+			// We rolled a spare
+			totalScore += frame[i].Score();
+			totalScore += frame[i + 1].RollOne();
+		}
+		else
+		{
+			totalScore += frame[i].Score();
+		}
+
 	}
 	return totalScore;
 }
